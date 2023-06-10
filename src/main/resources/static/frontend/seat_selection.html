@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seat Selection</title>
+    <link rel="stylesheet" href="/frontend/seat_selection_style.css">
+</head>
+
+<body>
+<h1>Seat Selection</h1>
+
+<div class="container">
+    <div id="seats-container"></div>
+
+    <div class="booking-details">
+        <div class="selected-seats">
+            Selected Seats: <span id="selected-seats">0</span>
+        </div>
+        <div class="total-price">
+            Total Price: $<span id="total-price">0</span>
+        </div>
+        <div class="date-selection">
+            <label for="date-select">Select Date:</label>
+            <select id="date-select"></select>
+        </div>
+        <div class="show-time-selection">
+            <label for="show-time-select">Select Show Time:</label>
+            <select id="show-time-select">
+                <option value="1">10AM - 1PM</option>
+                <option value="2">2PM - 5PM</option>
+                <option value="3">6PM - 9PM</option>
+                <option value="4">10PM - 1AM</option>
+            </select>
+        </div>
+    </div>
+
+    <a id="book-btn" class="book-button">Book Now</a>
+</div>
+
+<script src="/frontend/seat_selection_script.js"></script>
+<script>
+    // Get the movieId and movieName from the URL parameters
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const movieId = urlParams.get('movieId');
+    const movieName = urlParams.get('movieName');
+
+    // Pass the movieId and movieName to the JavaScript code
+    const movieData = {
+        movieId: movieId,
+        movieName: movieName
+    };
+
+    // Convert the movieData object to JSON and store it in a data attribute of the book button
+    document.getElementById('book-btn').dataset.movieData = JSON.stringify(movieData);
+</script>
+</body>
+
+</html>

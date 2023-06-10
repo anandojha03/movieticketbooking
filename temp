@@ -1,0 +1,105 @@
+
+// Function to open the modal with movie details
+function openModal(movie) {
+    var modal = document.getElementById("myModal");
+    var modalContent = document.getElementById("modalContent");
+
+    // Clear previous content
+    modalContent.innerHTML = "";
+
+    // Create modal content
+    var closeBtn = document.createElement("span");
+    closeBtn.classList.add("close");
+    closeBtn.innerHTML = "&times;";
+    closeBtn.addEventListener("click", closeModal);
+
+    var movieTitle = document.createElement("h2");
+    movieTitle.textContent = movie.name;
+
+    var dateLabel = document.createElement("label");
+    dateLabel.textContent = "Select Date:";
+    var dateInput = document.createElement("input");
+    dateInput.type = "date";
+    dateInput.min = getFormattedDate();
+    dateInput.max = getFormattedDate(10);
+    dateInput.id = "date";
+
+    var showTimingLabel = document.createElement("label");
+    showTimingLabel.textContent = "Select Show Timing:";
+    var showTimingSelect = document.createElement("select");
+    showTimingSelect.id = "showTiming";
+    var showTimings = ["10AM - 1PM", "2PM - 5PM", "6PM - 9PM", "10PM - 1AM"];
+    showTimings.forEach(showTiming => {
+        var option = document.createElement("option");
+        option.value = showTiming;
+        option.textContent = showTiming;
+        showTimingSelect.appendChild(option);
+    });
+
+    var submitBtn = document.createElement("button");
+    submitBtn.type = "submit";
+    submitBtn.textContent = "Submit";
+    submitBtn.addEventListener("click", function(event) {
+        event.preventDefault();
+        submitDetails(movie.id, dateInput.value, showTimingSelect.value); // Pass movie.id
+    });
+
+
+    // Add content to modal
+    modalContent.appendChild(closeBtn);
+    modalContent.appendChild(movieTitle);
+    modalContent.appendChild(dateLabel);
+    modalContent.appendChild(dateInput);
+    modalContent.appendChild(showTimingLabel);
+    modalContent.appendChild(showTimingSelect);
+    modalContent.appendChild(submitBtn);
+
+    // Show the modal
+    modal.style.display = "block";
+}
+
+// Function to close the modal
+function closeModal() {
+    var modal = document.getElementById("myModal");
+    modal.style.display = "none";
+}
+
+// Function to get the formatted date
+function getFormattedDate(daysToAdd = 0) {
+    var today = new Date();
+    today.setDate(today.getDate() + daysToAdd);
+
+    var year = today.getFullYear();
+    var month = (today.getMonth() + 1).toString().padStart(2, "0");
+    var day = today.getDate().toString().padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+}
+
+// Function to submit the details and redirect to "/seat_selection"
+function submitDetails(movieId, date, showTiming) {
+    var formData = {
+            movieId: movieId, // Use movieId instead of movie
+            date: date,
+            showTiming: showTiming
+        };
+
+    fetch("/seat_selection", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(formData)
+    })
+        .then(response => {
+            if (response.ok) {
+                // Redirect to "/seat_selection"
+                window.location.href = "/seat_selection";
+            } else {
+                throw new Error("Error in response");
+            }
+        })
+        .catch(error => {
+            console.error(error);
+        });
+}

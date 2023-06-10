@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Registration Page</title>
+    <link rel="stylesheet" href="/frontend/register_styles.css">
+    <script src="/frontend/register_script.js"></script>
+    <script>
+      function redirectToLoginPage() {
+        window.location.href = "/api/login";
+      }
+    </script>
+
+</head>
+<body>
+<div class="container">
+    <h1>Registration</h1>
+    <form id="registrationForm">
+        <div>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+        <div>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+        <div>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        <div>
+            <label for="phoneNumber">Phone Number:</label>
+            <input type="tel" id="phoneNumber" name="phoneNumber" required>
+        </div>
+        <input type="hidden" id="role" name="role" value="normal">
+        <div>
+            <button type="submit" onclick="redirectToLoginPage()">Register</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>
